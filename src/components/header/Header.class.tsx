@@ -10,8 +10,7 @@ import { LanguageState } from "../../redux/languageReducer";
 interface State extends LanguageState {}
 
 class HeaderComponnet extends React.Component<RouteComponentProps, State> {
-  
-  constructor(props){
+  constructor(props) {
     super(props);
     const storeState = store.getState();
     this.state = {
@@ -19,6 +18,15 @@ class HeaderComponnet extends React.Component<RouteComponentProps, State> {
       languageList: storeState.languageList,
     };
   }
+
+  menuClickHandler = (e) => {
+    console.log(e);
+    const action = {
+      type: "change_language",
+      payload: e.key,
+    };
+    store.dispatch(action);
+  };
 
   render() {
     const { history } = this.props;
@@ -31,7 +39,7 @@ class HeaderComponnet extends React.Component<RouteComponentProps, State> {
             <Dropdown.Button
               style={{ marginLeft: 15 }}
               overlay={
-                <Menu>
+                <Menu onClick={this.menuClickHandler}>
                   {this.state.languageList.map((l) => {
                     return <Menu.Item key={l.code}>{l.name}</Menu.Item>;
                   })}
